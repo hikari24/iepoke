@@ -25,6 +25,7 @@ describe 'アドミンのテスト' do
 	end
 	describe '表示のテスト' do
 		let(:admin) { create(:admin)}
+		let!(:user) { create(:user) }
 		before do
 			visit new_admin_session_path
 			fill_in 'admin[email]', with: admin.email
@@ -46,6 +47,12 @@ describe 'アドミンのテスト' do
 				
 				#expect(page).to have_content '会員一覧'
 				expect(current_path).to eq(admins_users_path)
+			end
+			it '会員詳細が表示される' do
+				visit admins_users_path
+				click_link user.name
+
+				expect(current_path).to eq(admins_user_path)
 			end
 		end
 	end

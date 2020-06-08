@@ -29,12 +29,12 @@ describe '食材のテスト' do
           fill_in 'food[quantity]', with: '200グラム'
           fill_in 'food[purchase_date]', with: '2020/05/01'
           fill_in 'food[expiry_date]', with: '2020/05/01'
-          click_button '登録', match: :first
+          click_button '保存', match: :first
           expect(page).to have_content '食材が登録されました'
         end
         it '登録に失敗する' do
           visit new_food_path
-          click_button '登録'
+          click_button '保存'
           expect(page).to have_content 'エラー'
         end	
     end
