@@ -2,7 +2,6 @@ class CategoriesController < ApplicationController
 	before_action :authenticate_user!
 	def create
 		@category = Category.new(category_params)
-		@category.user_id = current_user.id
 		if @category.save
 		redirect_to categories_path
 		flash[:notice] = "カテゴリーが追加されました。"
@@ -42,6 +41,6 @@ class CategoriesController < ApplicationController
 
 	private
 	def category_params
-		params.require(:category).permit(:user_id, :name)
+		params.require(:category).permit(:name).merge(user_id: current_user.id)
 	end
 end

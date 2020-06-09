@@ -29,17 +29,20 @@ class FoodsController < ApplicationController
 	end
 
 	def index
-		if params[:category_id] #カテゴリー一覧から飛んできたとき			
+		if params[:category_id] #カテゴリー一覧から飛んできたとき
+			params[:q] = { sorts: 'id asc' } #検索フォーム以外からアクセスした時は昇順で表示
 			@one_foods = Food.where(category_id: params[:category_id])
 			@foods = @one_foods.all.page(params[:page])
 		elsif params[:q] #検索フォームで検索したとき
 			@q = Food.ransack(params[:q])
   			@search_foods = @q.result
   			@foods = @search_foods.where(user_id: current_user.id).page(params[:page])
-  		elsif params[:expiry_date] #本日までの消費期限食材リンクから飛んできたとき 			
+  		elsif params[:expiry_date] #本日までの消費期限食材リンクから飛んできたとき
+  			params[:q] = { sorts: 'id acs' }
   			food = Food.where(user_id: current_user.id)
 			@foods = food.where(expiry_date: [100.days.ago..Date.today]).page(params[:page])#当日までの消費期限の食材を出す
 		else
+			params[:q] = { sorts: 'created_at asc' }
 			@foods = Food.where(user_id: current_user.id).page(params[:page])
 		end
 	end
