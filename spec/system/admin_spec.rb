@@ -45,14 +45,8 @@ describe 'アドミンのテスト' do
 				visit admins_root_path
 				click_link '会員一覧', match: :first
 				
-				#expect(page).to have_content '会員一覧'
+				expect(page).to have_content '会員一覧'
 				expect(current_path).to eq(admins_users_path)
-			end
-			it '会員詳細が表示される' do
-				visit admins_users_path
-				click_link user.name
-
-				expect(current_path).to eq(admins_user_path)
 			end
 		end
 	end

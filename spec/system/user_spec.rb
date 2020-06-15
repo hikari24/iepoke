@@ -22,7 +22,7 @@ describe 'ユーザー認証のテスト' do
 		 		fill_in 'user[password_confirmation]', with: ""
 		 		click_on '新規登録'
 
-		 		expect(page).to have_content 'エラー'
+		 		expect(page).to have_content '保存されませんでした'
 
 		 	end
 		 end
@@ -54,16 +54,24 @@ describe 'ユーザー認証のテスト' do
 		before do
 			visit new_user_session_path
 		end
-		context 'ハンバーガーメニューの表示' do
+		context 'ログイン時のハンバーガーメニューの表示' do
 			it '会員メニューが表示される' do
 				fill_in 'user[email]', with: user.email
 		 		fill_in 'user[password]', with: user.password
 		 		click_button 'ログイン'
 		 		visit root_path
 
+		 		expect(page).to have_content 'いえぽけ'
 				expect(page).to have_content 'マイページ'
 				expect(page).to have_content 'ほしいものリスト'
 				expect(page).to have_content 'ログアウト'
+			end
+		end
+		context '未ログイン時のハンバーガーメニューの表示' do
+			it '非会員メニューが表示される' do
+				expect(page).to have_content 'いえぽけ'
+				expect(page).to have_content 'ログイン'
+				expect(page).to have_content '新規会員登録'
 			end
 		end
 	end
@@ -80,10 +88,16 @@ describe 'マイページのテスト' do
   	context '表示の確認' do
 		it 'マイページの表示' do
 			visit root_path
-			click_on 'マイページ'
+			click_button 'マイページ'
 			visit users_path
 			expect(page).to have_content 'マイページ'
 		end
+
+		it 'カレンダーの表示' do
+			visit users_path
+			expect(page).to have_content 'カレンダー'
+		end
+
 		it 'マイページ編集画面を表示する' do
 			visit users_path
 			click_on '登録内容の変更', match: :first
