@@ -3,7 +3,7 @@ require 'rails_helper'
 describe 'カテゴリーのテスト' do
 	let!(:user) { create(:user) }
 	let!(:category) { create(:category) }
-	#let!(:food) { create(:food) }
+	let!(:food) { create(:food) }
 	before do
 	visit new_user_session_path
 	fill_in 'user[email]', with: user.email
@@ -19,11 +19,11 @@ describe 'カテゴリーのテスト' do
   			visit categories_path
   			expect(page).to have_content 'カテゴリー一覧'
   		end
-  		#it 'カテゴリー名のリンク先が正しい' do
-  		#	visit categories_path
-  		#	expect(page).to have_content '肉類'
-  		#	expect(page).to have_link category.name, href: foods_path(category_id: category.id)
-  		#end
+  		it 'カテゴリー名のリンク先が正しい' do
+  			visit categories_path
+  			expect(page).to have_content '肉類'
+  			expect(page).to have_link category.name, href: foods_path(category_id: category.id)
+  		end
   	end
   	context 'カテゴリーの追加・編集' do
 		it '追加に成功する' do

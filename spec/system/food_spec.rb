@@ -11,12 +11,6 @@ describe '食材のテスト' do
   visit root_path
   click_button '食材を登録する'
   visit new_food_path
-  #click_button '追加'
-  #visit categories_path
-  #fill_in "category[name]", with: "肉類"
-  #click_button "追加"
-  #click_button "食材登録"
-  #visit new_food_path
   end
     describe '登録のテスト' do
         it '登録フォームが表示される' do
@@ -24,7 +18,6 @@ describe '食材のテスト' do
   	    end
         it '登録に成功する' do
           select "肉類", from: "food_category_id"
-          #find("option[value=肉類]").select_option
           fill_in 'food[name]', with: '豚肉'
           fill_in 'food[quantity]', with: '200グラム'
           fill_in 'food[purchase_date]', with: '2020/05/01'
