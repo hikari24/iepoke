@@ -50,7 +50,7 @@ describe '食材のテスト' do
         end
     end
 
-    describe '表示のテスト' do
+    describe '表示のテスト 食材一覧' do
       let!(:food) { create(:food, user_id: user.id, category_id: category.id) }
         it '食材一覧が表示される' do
           visit foods_path
@@ -60,9 +60,34 @@ describe '食材のテスト' do
           visit foods_path
           expect(page).to have_link food.name, href: food_path(food)
         end
-        it '食材詳細が表示される' do
+    end
+    describe '表示のテスト 食材一覧' do
+      let!(:food) { create(:food, user_id: user.id, category_id: category.id) }
+        it '食材詳細画面が表示される' do
           visit food_path(food)
           expect(page).to have_content '食材詳細'
         end
+        it '食材詳細が表示される' do
+          visit food_path(food)
+          expect(page).to have_content food.name
+          expect(page).to have_content food.quantity
+        end
+        it '削除リンク（使い切った）が表示される' do
+          visit food_path(food)
+          expect(page).to have_link '使い切った', href: food_path(food)
+        end
+        it '編集リンクが表示される' do
+          visit food_path(food)
+          expect(page).to have_link '編集', href: edit_food_path(food)
+        end
+        it '一覧リンクが表示される' do
+          visit food_path(food)
+          expect(page).to have_link '一覧', href: foods_path
+        end
+        it '登録リンクが表示される' do
+          visit food_path(food)
+          expect(page).to have_link '登録', href: new_food_path
+        end
     end
+
 end	
