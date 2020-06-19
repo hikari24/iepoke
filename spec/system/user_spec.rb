@@ -86,16 +86,29 @@ describe 'マイページのテスト' do
   		click_button 'ログイン'
   	end
   	context '表示の確認' do
-		it 'マイページの表示' do
+		it 'マイページが表示される' do
 			visit root_path
 			click_button 'マイページ'
 			visit users_path
 			expect(page).to have_content 'マイページ'
 		end
 
-		it 'カレンダーの表示' do
+		it 'カレンダーが表示される' do
 			visit users_path
 			expect(page).to have_content 'カレンダー'
+		end
+
+		it '登録内容変更ボタンが表示される' do
+			visit users_path
+			expect(page).to have_button '登録内容の変更'
+			expect(page).to have_link '登録内容の変更', href: edit_users_path
+
+		end
+
+		it '退会ボタンが表示される' do
+			visit users_path
+			expect(page).to have_button '退会する'
+			expect(page).to have_link '退会する', href: users_quit_path
 		end
 
 		it 'マイページ編集画面を表示する' do
@@ -104,6 +117,7 @@ describe 'マイページのテスト' do
 			expect(current_path).to eq(edit_users_path)
 		end
 	end
+
 	context '登録内容の編集' do
 		it '登録内容を変更に成功する' do
 			visit edit_users_path
